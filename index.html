@@ -1294,7 +1294,7 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        function handleChatKey(e) { if (e.key === 'Enter') processChatStep(); }
+      function handleChatKey(e) { if (e.key === 'Enter') processChatStep(); }
         function handleAdminPasswordKey(e) { if (e.key === 'Enter') verifyAdminPassword(); }
         function handleTrackerKey(e) { if (e.key === 'Enter') lookupClientOrder(); }
 
@@ -1315,8 +1315,36 @@
                 setTimeout(() => { addChatBubble(chatSteps[currentChatStep].prompt, 'system'); }, 400);
             } else {
                 setTimeout(() => {
+                    // 1. Log to the internal browser memory backup
                     database.push(tempOrderData);
                     localStorage.setItem('kaushal_tech_orders', JSON.stringify(database));
+                    
+                    // 2. Format the columns for Google Sheets
+                    var sheetPayload = {
+                        "data": [
+                            {
+                                "OrderID": tempOrderData.orderId,
+                                "Name": tempOrderData.personalDetails,
+                                "Phone": tempOrderData.phoneNumber,
+                                "Requirements": tempOrderData.websiteDetails,
+                                "Theme": tempOrderData.theme,
+                                "Status": tempOrderData.projectStatus || 'Pending',
+                                "Cost": tempOrderData.calculatedCost || 1500
+                            }
+                        ]
+                    };
+
+                    // 3. Stream data to Google Sheets via your SheetDB API link
+                    fetch('https://sheetdb.io/api/v1/dlys3vtj1weyp', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(sheetPayload)
+                    })
+                    .then(res => res.json())
+                    .then(apiData => console.log("Google Sheets sync successful!", apiData))
+                    .catch(err => console.error("Cloud stream disconnected:", err));
+
+                    // 4. Complete the user workflow screen
                     addChatBubble(`<strong>System Logging Complete!</strong> Requirements locked configuration profile mappings.<br><br>🚨 <strong>Your Unique Tracker Token: <span style='color:var(--accent-orange); font-size:1.1rem;'>${tempOrderData.orderId}</span></strong><br>Reference this tracking sequence from our terminal registry anytime to check live statuses updates.`, 'system');
                     inputField.disabled = true;
                     showPremiumToast(`New Order Profile Registered: ${tempOrderData.orderId}`, "fa-solid fa-cloud-arrow-up", "var(--accent-green)");
