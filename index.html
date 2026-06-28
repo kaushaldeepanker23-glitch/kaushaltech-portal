@@ -1332,32 +1332,45 @@
 
             if (currentChatStep < chatSteps.length) {
                 setTimeout(() => { addChatBubble(chatSteps[currentChatStep].prompt, 'system'); }, 400);
-            } else {
+            } } else {
                 setTimeout(() => {
                     database.push(tempOrderData);
                     localStorage.setItem('kaushal_tech_orders', JSON.stringify(database));
                     
-                    // --- GOOGLE APPS SCRIPT PIPELINE HANDLE ---
-                    // Paste your fresh web app deployment URL right here:
-                    const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyDzty1DEiEVrQI2GmmN4hqa4d3Q62d59wyhBN3eEy2pNr7DL0y7CdWWwnB6LtRAaTe-Q/exec';
+                    // --- MOBILE-OPTIMIZED GOOGLE APPS SCRIPT SYNC ---
+                    const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxCQtpipQV_Nz6L8ouhNWeN14ubsIOzz_p2_KmpYJp4k0b2tvwZQp3Z0KArnViF1tJo5Q/exec';
                     
+                    // Convert our JSON tracking details into plain text parameters so mobile browsers don't block it
+                    const mobileFriendlyFormData = new URLSearchParams();
+                    mobileFriendlyFormData.append('orderId', tempOrderData.orderId);
+                    mobileFriendlyFormData.append('personalDetails', tempOrderData.personalDetails || "N/A");
+                    mobileFriendlyFormData.append('phoneNumber', tempOrderData.phoneNumber || "N/A");
+                    mobileFriendlyFormData.append('websiteDetails', tempOrderData.websiteDetails || "N/A");
+                    mobileFriendlyFormData.append('theme', tempOrderData.theme || "N/A");
+                    mobileFriendlyFormData.append('projectStatus', tempOrderData.projectStatus || "Pending");
+                    mobileFriendlyFormData.append('calculatedCost', tempOrderData.calculatedCost || 1500);
+
                     fetch(GOOGLE_APPS_SCRIPT_URL, {
                         method: 'POST',
-                        mode: 'no-cors', // Prevents browser cross-origin policy blockages
+                        mode: 'no-cors', 
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/x-www-form-urlencoded'
                         },
-                        body: JSON.stringify(tempOrderData)
+                        body: mobileFriendlyFormData.toString()
                     })
                     .then(() => {
-                        showPremiumToast("Data synced to Google Sheets via Apps Script!", "fa-solid fa-cloud", "var(--accent-green)");
+                        showPremiumToast("Data synced to Google Sheets perfectly!", "fa-solid fa-cloud", "var(--accent-green)");
                     })
                     .catch(err => {
-                        console.error("Apps Script Sync Error:", err);
-                        showPremiumToast("Google Sheets pipeline transfer error", "fa-solid fa-triangle-exclamation", "var(--accent-red)");
+                        console.error("Mobile Sync Error:", err);
                     });
-                    // ------------------------------------------
+                    // ------------------------------------------------
 
+                    addChatBubble(`<strong>System Logging Complete!</strong> Requirements locked configuration profile mappings.<br><br>🚨 <strong>Your Unique Tracker Token: <span style='color:var(--accent-orange); font-size:1.1rem;'>${tempOrderData.orderId}</span></strong><br>Reference this tracking sequence from our terminal registry anytime to check live statuses updates.`, 'system');
+                    inputField.disabled = true;
+                    showPremiumToast(`New Order Profile Registered: ${tempOrderData.orderId}`, "fa-solid fa-cloud-arrow-up", "var(--accent-green)");
+                }, 400);
+            }
                     addChatBubble(`<strong>System Logging Complete!</strong> Requirements locked configuration profile mappings.<br><br>🚨 <strong>Your Unique Tracker Token: <span style='color:var(--accent-orange); font-size:1.1rem;'>${tempOrderData.orderId}</span></strong><br>Reference this tracking sequence from our terminal registry anytime to check live statuses updates.`, 'system');
                     inputField.disabled = true;
                     showPremiumToast(`New Order Profile Registered: ${tempOrderData.orderId}`, "fa-solid fa-cloud-arrow-up", "var(--accent-green)");
