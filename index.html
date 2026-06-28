@@ -1337,15 +1337,32 @@
                     database.push(tempOrderData);
                     localStorage.setItem('kaushal_tech_orders', JSON.stringify(database));
                     
-                    // Trigger dynamic deployment payload stream to Google Sheets
-                    syncOrderToGoogleSheets(tempOrderData);
+                    // --- GOOGLE APPS SCRIPT PIPELINE HANDLE ---
+                    // Paste your fresh web app deployment URL right here:
+                    const GOOGLE_APPS_SCRIPT_URL = 'PASTE_YOUR_NEW_WEB_APP_URL_HERE';
+                    
+                    fetch(GOOGLE_APPS_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors', // Prevents browser cross-origin policy blockages
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(tempOrderData)
+                    })
+                    .then(() => {
+                        showPremiumToast("Data synced to Google Sheets via Apps Script!", "fa-solid fa-cloud", "var(--accent-green)");
+                    })
+                    .catch(err => {
+                        console.error("Apps Script Sync Error:", err);
+                        showPremiumToast("Google Sheets pipeline transfer error", "fa-solid fa-triangle-exclamation", "var(--accent-red)");
+                    });
+                    // ------------------------------------------
 
                     addChatBubble(`<strong>System Logging Complete!</strong> Requirements locked configuration profile mappings.<br><br>🚨 <strong>Your Unique Tracker Token: <span style='color:var(--accent-orange); font-size:1.1rem;'>${tempOrderData.orderId}</span></strong><br>Reference this tracking sequence from our terminal registry anytime to check live statuses updates.`, 'system');
                     inputField.disabled = true;
                     showPremiumToast(`New Order Profile Registered: ${tempOrderData.orderId}`, "fa-solid fa-cloud-arrow-up", "var(--accent-green)");
                 }, 400);
             }
-        }
 
         function lookupClientOrder() {
             const searchInput = document.getElementById('clientTrackerInput').value.trim().toLowerCase();
