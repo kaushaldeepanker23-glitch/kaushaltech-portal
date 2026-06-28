@@ -125,6 +125,9 @@
         }
 
         @media (max-width: 768px) {
+            .navbar {
+                padding: 16px 20px;
+            }
             .nav-links {
                 display: none;
                 flex-direction: column;
@@ -136,6 +139,7 @@
                 padding: 20px;
                 border-bottom: 1px solid var(--border-color);
                 gap: 16px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             }
             .nav-links.mobile-open {
                 display: flex;
@@ -170,6 +174,9 @@
             letter-spacing: -1px;
             line-height: 1.1;
             margin-bottom: 16px;
+        }
+        @media (max-width: 480px) {
+            .hero-title { font-size: 2.2rem; }
         }
 
         .hero-desc {
@@ -255,6 +262,10 @@
             display: flex;
             gap: 10px;
         }
+        @media (max-width: 480px) {
+            .tracker-input-row { flex-direction: column; }
+            .tracker-btn { padding: 12px !important; }
+        }
 
         .tracker-field {
             flex: 1;
@@ -308,6 +319,7 @@
             color: var(--text-muted);
             font-size: 1rem;
             margin-bottom: 30px;
+            padding: 0 16px;
         }
 
         /* Interactive Portfolio Blueprint Frame */
@@ -322,6 +334,7 @@
             justify-content: center;
             gap: 12px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
@@ -378,6 +391,9 @@
             margin: 0 auto;
             text-align: center;
             border: 1px solid rgba(0,0,0,0.05);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .mock-display-view {
@@ -406,6 +422,10 @@
             padding: 30px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.02);
         }
+        @media (max-width: 480px) {
+            .calculator-wrapper { padding: 20px; }
+            .total-display-panel { flex-direction: column; gap: 16px; text-align: center; }
+        }
 
         .calc-option-row {
             display: flex;
@@ -413,6 +433,7 @@
             justify-content: space-between;
             padding: 14px 0;
             border-bottom: 1px solid var(--border-color);
+            gap: 12px;
         }
         .calc-option-row:last-of-type { border-bottom: none; }
 
@@ -427,11 +448,13 @@
             width: 18px;
             height: 18px;
             accent-color: var(--accent-blue);
+            flex-shrink: 0;
         }
 
         .option-price {
             font-weight: 700;
             color: var(--text-primary);
+            white-space: nowrap;
         }
 
         .total-display-panel {
@@ -502,6 +525,7 @@
             justify-content: space-between;
             align-items: center;
             background: rgba(0,0,0,0.01);
+            gap: 10px;
         }
         .faq-answer {
             padding: 0 20px;
@@ -576,7 +600,7 @@
             -webkit-backdrop-filter: blur(10px);
             z-index: 2000;
             display: none;
-            padding: 40px 24px;
+            padding: 20px 12px;
             overflow-y: auto;
         }
         body.dark .fullscreen-overlay {
@@ -586,7 +610,7 @@
         .interface-card {
             background: var(--surface-card);
             max-width: 500px;
-            margin: 40px auto;
+            margin: 20px auto;
             border-radius: var(--radius-box);
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             border: 1px solid var(--border-color);
@@ -764,6 +788,7 @@
             font-weight: 600;
             display: inline-block;
             margin-bottom: 8px;
+            word-break: break-all;
         }
 
         .order-action-row {
@@ -856,6 +881,9 @@
             gap: 10px;
             pointer-events: none;
         }
+        @media (max-width: 480px) {
+            .toast-space-anchor { left: 24px; right: 24px; bottom: 16px; }
+        }
         .premium-toast-card {
             background: #1d1d1f;
             color: #f5f5f7;
@@ -889,11 +917,11 @@
         <div class="nav-logo">KaushalTech<span>.</span></div>
         
         <ul class="nav-links" id="navLinksMenu">
-            <li><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#" onclick="toggleMobileMenu()">Home</a></li>
+            <li><a href="#about" onclick="toggleMobileMenu()">About</a></li>
+            <li><a href="#services" onclick="toggleMobileMenu()">Services</a></li>
+            <li><a href="#pricing" onclick="toggleMobileMenu()">Pricing</a></li>
+            <li><a href="#faq" onclick="toggleMobileMenu()">FAQ</a></li>
         </ul>
 
         <div class="nav-btn-group">
@@ -1313,6 +1341,7 @@
             container.scrollTop = container.scrollHeight;
         }
 
+        // Form Key Event Utilities
         function handleChatKey(e) { if (e.key === 'Enter') processChatStep(); }
         function handleAdminPasswordKey(e) { if (e.key === 'Enter') verifyAdminPassword(); }
         function handleTrackerKey(e) { if (e.key === 'Enter') lookupClientOrder(); }
@@ -1332,13 +1361,13 @@
 
             if (currentChatStep < chatSteps.length) {
                 setTimeout(() => { addChatBubble(chatSteps[currentChatStep].prompt, 'system'); }, 400);
-            } } else {
+            } else {
                 setTimeout(() => {
                     database.push(tempOrderData);
                     localStorage.setItem('kaushal_tech_orders', JSON.stringify(database));
                     
                     // --- MOBILE-OPTIMIZED GOOGLE APPS SCRIPT SYNC ---
-                    const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxCQtpipQV_Nz6L8ouhNWeN14ubsIOzz_p2_KmpYJp4k0b2tvwZQp3Z0KArnViF1tJo5Q/exec';
+                    const GOOGLE_APPS_SCRIPT_URL_MOBILE = 'https://script.google.com/macros/s/AKfycbxCQtpipQV_Nz6L8ouhNWeN14ubsIOzz_p2_KmpYJp4k0b2tvwZQp3Z0KArnViF1tJo5Q/exec';
                     
                     // Convert our JSON tracking details into plain text parameters so mobile browsers don't block it
                     const mobileFriendlyFormData = new URLSearchParams();
@@ -1350,7 +1379,7 @@
                     mobileFriendlyFormData.append('projectStatus', tempOrderData.projectStatus || "Pending");
                     mobileFriendlyFormData.append('calculatedCost', tempOrderData.calculatedCost || 1500);
 
-                    fetch(GOOGLE_APPS_SCRIPT_URL, {
+                    fetch(GOOGLE_APPS_SCRIPT_URL_MOBILE, {
                         method: 'POST',
                         mode: 'no-cors', 
                         headers: {
@@ -1371,11 +1400,7 @@
                     showPremiumToast(`New Order Profile Registered: ${tempOrderData.orderId}`, "fa-solid fa-cloud-arrow-up", "var(--accent-green)");
                 }, 400);
             }
-                    addChatBubble(`<strong>System Logging Complete!</strong> Requirements locked configuration profile mappings.<br><br>🚨 <strong>Your Unique Tracker Token: <span style='color:var(--accent-orange); font-size:1.1rem;'>${tempOrderData.orderId}</span></strong><br>Reference this tracking sequence from our terminal registry anytime to check live statuses updates.`, 'system');
-                    inputField.disabled = true;
-                    showPremiumToast(`New Order Profile Registered: ${tempOrderData.orderId}`, "fa-solid fa-cloud-arrow-up", "var(--accent-green)");
-                }, 400);
-            }
+        }
 
         function lookupClientOrder() {
             const searchInput = document.getElementById('clientTrackerInput').value.trim().toLowerCase();
