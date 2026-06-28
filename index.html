@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaushal Tech Suite | Premium Web Systems</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-global: #f5f5f7;
+            --surface-card: #ffffff;
+            --text-primary: #1d1d1f;
+            --text-muted: #86868b;
+            --accent-blue: #0071e3;
+            --accent-green: #34c759;
+            --accent-orange: #ff9500;
+            --accent-red: #ff3b30;
+            --border-color: rgba(0,0,0,0.08);
+            --radius-box: 18px;
+            --radius-pill: 40px;
+        }
+
+        /* Ambient Dark Mode Override Matrix */
+        body.dark {
+            --bg-global: #000000;
+            --surface-card: #1c1c1e;
+            --text-primary: #f5f5f7;
+            --text-muted: #8e8e93;
+            --border-color: rgba(255,255,255,0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-global);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: 0px;
+        }
+
+        /* Top Navigation Bar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 40px;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+        body.dark .navbar {
+            background: rgba(28, 28, 30, 0.8);
+        }
+
+        .nav-logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .nav-logo span { color: var(--accent-blue); }
+
+        /* Public Navigation Links Block */
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .nav-btn-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .admin-trigger-btn {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .admin-trigger-btn:hover {
+            background: var(--text-primary);
+            color: var(--surface-card);
+            border-color: var(--text-primary);
+        }
+
+        /* Mobile Hamburger Icon Menu */
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 1.3rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: var(--surface-card);
+                padding: 20px;
+                border-bottom: 1px solid var(--border-color);
+                gap: 16px;
+            }
+            .nav-links.mobile-open {
+                display: flex;
+            }
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+
+        /* Hero Main Layout */
+        .main-hero {
+            max-width: 1000px;
+            margin: 50px auto 40px auto;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        .hero-badge {
+            background: rgba(0, 113, 227, 0.1);
+            color: var(--accent-blue);
+            padding: 6px 16px;
+            border-radius: var(--radius-pill);
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .hero-desc {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 32px auto;
+            line-height: 1.5;
+        }
+
+        /* Action Buttons Core Wrapper */
+        .cta-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .cta-primary-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .cta-order-btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 16px 36px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 113, 227, 0.3);
+        }
+        .cta-order-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .cta-whatsapp-btn {
+            background: #25d366;
+            color: white;
+            text-decoration: none;
+            padding: 16px 36px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: var(--radius-pill);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+        .cta-whatsapp-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* Client Tracking Hub Component */
+        .tracker-card {
+            max-width: 550px;
+            margin: 40px auto 0 auto;
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-box);
+            padding: 24px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+            text-align: left;
+        }
+
+        .tracker-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tracker-input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tracker-field {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            background: var(--bg-global);
+            color: var(--text-primary);
+        }
+
+        .tracker-btn {
+            background: var(--text-primary);
+            color: var(--surface-card);
+            border: none;
+            padding: 0 20px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .tracker-btn:hover { background: var(--accent-blue); color: white; }
+
+        .client-result-panel {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border-color);
+            display: none;
+        }
+
+        .client-status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        /* Sections Headings Layout */
+        .section-heading {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 60px 0 10px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .section-subheading {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        /* Interactive Portfolio Blueprint Frame */
+        .portfolio-wrapper {
+            max-width: 800px;
+            margin: 0 auto 60px auto;
+            padding: 0 24px;
+        }
+
+        .portfolio-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .tab-btn.active {
+            background: var(--text-primary);
+            color: var(--surface-card);
+            border-color: var(--text-primary);
+        }
+
+        .mock-browser-frame {
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-box);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        .browser-top-bar {
+            background: rgba(0,0,0,0.03);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .browser-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff5f56;
+        }
+        .browser-dot:nth-child(2) { background: #ffbd2e; }
+        .browser-dot:nth-child(3) { background: #27c93f; }
+
+        .browser-url-field {
+            background: var(--bg-global);
+            flex: 1;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            color: var(--text-muted);
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .mock-display-view {
+            background: #000;
+            line-height: 0;
+            overflow: hidden;
+        }
+
+        .portfolio-screenshot {
+            width: 100%;
+            height: auto;
+            max-height: 480px;
+            object-fit: cover;
+            display: none;
+            opacity: 0.85;
+        }
+        .portfolio-screenshot.active { display: block; }
+
+        /* Public Dynamic Pricing Engine */
+        .calculator-wrapper {
+            max-width: 550px;
+            margin: 0 auto 60px auto;
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-box);
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+
+        .calc-option-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .calc-option-row:last-of-type { border-bottom: none; }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .checkbox-container input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-blue);
+        }
+
+        .option-price {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .total-display-panel {
+            background: var(--bg-global);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-price-tag {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+        }
+
+        /* Business Info / Grid Sections Layout */
+        .content-grid-section {
+            max-width: 1000px;
+            margin: 0 auto 60px auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .info-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-box);
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+        }
+        .info-card i {
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            margin-bottom: 16px;
+        }
+        .info-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .info-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* FAQ & Accordions styling */
+        .faq-wrapper {
+            max-width: 650px;
+            margin: 0 auto 60px auto;
+            padding: 0 24px;
+        }
+        .faq-item {
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 16px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.01);
+        }
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .faq-item.open .faq-answer {
+            padding: 16px 20px;
+            max-height: 200px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Premium Footer Ecosystem */
+        .suite-footer {
+            background: var(--surface-card);
+            border-top: 1px solid var(--border-color);
+            padding: 40px 24px;
+            margin-top: 100px;
+        }
+        .footer-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+        }
+        .footer-col h4 {
+            font-size: 1rem;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .footer-col p, .footer-col a {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-decoration: none;
+            line-height: 1.6;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .footer-col a:hover { color: var(--accent-blue); }
+        
+        .newsletter-input-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .newsletter-field {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--bg-global);
+            color: var(--text-primary);
+            outline: none;
+            font-size: 0.85rem;
+            flex: 1;
+        }
+
+        /* Full Screen Window Overlays */
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(245, 245, 247, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            padding: 40px 24px;
+            overflow-y: auto;
+        }
+        body.dark .fullscreen-overlay {
+            background: rgba(0, 0, 0, 0.95);
+        }
+
+        .interface-card {
+            background: var(--surface-card);
+            max-width: 500px;
+            margin: 40px auto;
+            border-radius: var(--radius-box);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .interface-header {
+            background: #1d1d1f;
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+        body.dark .interface-header {
+            background: #2c2c2e;
+        }
+
+        .close-overlay-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+        .close-overlay-btn:hover { opacity: 1; }
+
+        /* Order Automation Chat Space */
+        .chat-space {
+            height: 380px;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(0,0,0,0.02);
+        }
+
+        .chat-input-row {
+            display: flex;
+            border-top: 1px solid var(--border-color);
+            background: var(--surface-card);
+        }
+
+        .chat-field {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 16px;
+            font-size: 1rem;
+            background: transparent;
+            color: var(--text-primary);
+        }
+
+        .chat-send-btn {
+            background: transparent;
+            border: none;
+            color: var(--accent-blue);
+            padding: 0 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .chat-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: var(--radius-box);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .bubble-system {
+            background: var(--bg-global);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+        .bubble-user {
+            background: var(--accent-blue);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        /* Extended Financial Summary Grid Styles */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 16px;
+            background: var(--bg-global);
+        }
+        @media(min-width: 480px) {
+            .stats-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        .stat-card {
+            background: var(--surface-card);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-top: 4px;
+        }
+        .stat-title {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* Filter Triage Pills Styling */
+        .filter-pill-row {
+            display: flex;
+            gap: 8px;
+            padding: 0 16px 12px 16px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .filter-pill {
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+        }
+        .filter-pill.active {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+        }
+
+        .dashboard-search-bar {
+            width: calc(100% - 32px);
+            margin: 16px 16px 10px 16px;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            background: var(--surface-card);
+            color: var(--text-primary);
+        }
+
+        .chart-box-container {
+            padding: 16px;
+            background: var(--surface-card);
+            border-radius: 12px;
+            margin: 0 16px 16px 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .order-row {
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px;
+            position: relative;
+        }
+        .order-row:last-child { border-bottom: none; }
+
+        .order-tag {
+            font-size: 0.75rem;
+            background: var(--bg-global);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .order-action-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .copy-btn { background: rgba(0, 113, 227, 0.1); color: var(--accent-blue); }
+        .pdf-btn { background: rgba(52, 199, 89, 0.1); color: var(--accent-green); }
+        .delete-order-btn { background: rgba(255, 59, 48, 0.1); color: var(--accent-red); }
+
+        .status-dropdown {
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--surface-card);
+            color: var(--text-primary);
+            cursor: pointer;
+            outline: none;
+        }
+
+        .status-select-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        /* Generic Inputs Styling */
+        .form-padding { padding: 24px; }
+        .form-group { margin-bottom: 16px; }
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            background: var(--bg-global);
+            color: var(--text-primary);
+        }
+        .submit-form-btn {
+            width: 100%;
+            background: var(--text-primary);
+            color: var(--surface-card);
+            border: none;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        /* Toast Feedback Core Styling Setup */
+        .toast-space-anchor {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+        .premium-toast-card {
+            background: #1d1d1f;
+            color: #f5f5f7;
+            padding: 14px 22px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            pointer-events: auto;
+            transform: translateY(40px);
+            opacity: 0;
+            animation: slideInToast 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        body.dark .premium-toast-card {
+            background: #2c2c2e;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        @keyframes slideInToast {
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toastAnchorStack" class="toast-space-anchor"></div>
+
+    <div class="navbar">
+        <div class="nav-logo">KaushalTech<span>.</span></div>
+        
+        <ul class="nav-links" id="navLinksMenu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+
+        <div class="nav-btn-group">
+            <button class="admin-trigger-btn" onclick="toggleTheme()">
+                <i id="themeIcon" class="fa-solid fa-moon"></i> Theme
+            </button>
+            <button class="admin-trigger-btn" onclick="openModal('adminPasswordModal')">
+                <i class="fa-solid fa-lock"></i> Manager Login
+            </button>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="main-hero">
+        <div class="hero-badge"><i class="fa-solid fa-shield"></i> SSL Secured Connection Node</div>
+        <h1 class="hero-title">Next-Generation Systems Built For Your Business</h1>
+        <p class="hero-desc">Stunning responsive designs, dynamic client dashboards, and custom configurations optimized to expand your brand's digital revenue footprint.</p>
+        
+        <div class="cta-container">
+            <div class="cta-primary-row">
+                <button class="cta-order-btn" onclick="startOrderWorkflow(null)"><i class="fa-solid fa-wand-magic-sparkles"></i> Order Custom Website</button>
+                <a href="https://wa.me/919478908961?text=Hi%20Deepanker,%20I%20want%20to%20order%20a%20custom%20website%20package%20from%20Kaushal%20Tech.%20Let's%20discuss%20details!" target="_blank" class="cta-whatsapp-btn">
+                    <i class="fa-brands fa-whatsapp"></i> Quick Order via WhatsApp
+                </a>
+            </div>
+        </div>
+
+        <div class="tracker-card">
+            <div class="tracker-title"><i class="fa-solid fa-satellite-dish" style="color:var(--accent-blue);"></i> Track Your Project Status</div>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">Enter the Phone Number or Order ID used during layout creation to pull trace parameters.</p>
+            <div class="tracker-input-row">
+                <input type="text" id="clientTrackerInput" class="tracker-field" placeholder="e.g., 9478908961 or KT-4591" onkeypress="handleTrackerKey(event)">
+                <button class="tracker-btn" onclick="lookupClientOrder()">Track Progress</button>
+            </div>
+            <div id="trackerResultPanel" class="client-result-panel"></div>
+        </div>
+    </div>
+
+    <div id="about"></div>
+    <h2 class="section-heading">About Our Enterprise Suite</h2>
+    <p class="section-subheading">Engineering high-speed responsive architectures for local growth hubs</p>
+    <div class="content-grid-section">
+        <div class="info-card">
+            <i class="fa-solid fa-cubes"></i>
+            <h3>E-Commerce & Portals</h3>
+            <p>From local shops to intensive customer management hubs, we customize code tailored perfectly to fit your operational workflow matrix.</p>
+        </div>
+        <div class="info-card">
+            <i class="fa-solid fa-bolt"></i>
+            <h3>High Speed Architecture</h3>
+            <p>Built layout structures with zero clutter. Every single layout asset loads smoothly and responsively across phones, tablets, or desktop viewports.</p>
+        </div>
+        <div class="info-card">
+            <i class="fa-solid fa-certificate"></i>
+            <h3>Credibility Driven</h3>
+            <p>Integrated dynamic features, secure gateways, invoice logs compilers, and dedicated tracker handles ensuring top-tier engineering standards.</p>
+        </div>
+    </div>
+
+    <div id="services"></div>
+    <h2 class="section-heading">Explore Architecture Blueprints</h2>
+    <p class="section-subheading">Click the industry fields below to toggle dynamic layout views</p>
+    
+    <div class="portfolio-wrapper">
+        <div class="portfolio-tabs">
+            <button class="tab-btn active" onclick="switchPortfolioTab('restaurant', this)">Restaurants</button>
+            <button class="tab-btn" onclick="switchPortfolioTab('coaching', this)">Coaching Centers</button>
+            <button class="tab-btn" onclick="switchPortfolioTab('shop', this)">Local Shops</button>
+        </div>
+
+        <div class="mock-browser-frame">
+            <div class="browser-top-bar">
+                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+                <div class="browser-url-field" id="browserUrlText">https://premium-cafe.kaushaltech.com</div>
+            </div>
+            <div class="mock-display-view">
+                <img id="mock-restaurant" class="portfolio-screenshot active" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" alt="Restaurant Blueprint">
+                <img id="mock-coaching" class="portfolio-screenshot" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" alt="Coaching Matrix UI">
+                <img id="mock-shop" class="portfolio-screenshot" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="E-Store Design Profile">
+            </div>
+        </div>
+    </div>
+
+    <div id="pricing"></div>
+    <h2 class="section-heading">Calculate Your Project Estimate</h2>
+    <p class="section-subheading">Tick your required development elements to generate an active estimate</p>
+    
+    <div class="calculator-wrapper">
+        <div class="calc-option-row">
+            <label class="checkbox-container">
+                <input type="checkbox" id="opt_base" checked disabled>
+                <span>Single-Page Core Profile Layout</span>
+            </label>
+            <span class="option-price">₹1,500</span>
+        </div>
+        <div class="calc-option-row">
+            <label class="checkbox-container">
+                <input type="checkbox" id="opt_multi" onchange="calculatePriceTotal()">
+                <span>Upgrade to Multi-Page Ecosystem Architecture</span>
+            </label>
+            <span class="option-price">+ ₹2,500</span>
+        </div>
+        <div class="calc-option-row">
+            <label class="checkbox-container">
+                <input type="checkbox" id="opt_upi" onchange="calculatePriceTotal()">
+                <span>Secure Dynamic UPI Transaction Terminal Gateway</span>
+            </label>
+            <span class="option-price">+ ₹1,000</span>
+        </div>
+
+        <div class="total-display-panel">
+            <div>
+                <span style="font-size:0.8rem; text-transform:uppercase; font-weight:600; color:var(--text-muted);">Calculated Investment</span>
+                <div class="total-price-tag" id="priceTotalTag">₹1,500</div>
+            </div>
+            <button class="cta-order-btn" style="padding:10px 24px; font-size:0.95rem;" onclick="launchOrderWithBudget()"><i class="fa-solid fa-check"></i> Lock In Budget</button>
+        </div>
+    </div>
+
+    <h2 class="section-heading">Client Endorsements</h2>
+    <p class="section-subheading">Hear from business leaders currently driving digital growth with our frameworks</p>
+    <div class="content-grid-section" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+        <div class="info-card" style="border-top: 4px solid var(--accent-blue);">
+            <p style="font-style: italic; margin-bottom: 12px; color: var(--text-primary);">"The dynamic UPI system completely automated our local storefront tracking. Clean design and ultra fast!"</p>
+            <strong>- Rajesh M., Store Owner</strong>
+        </div>
+        <div class="info-card" style="border-top: 4px solid var(--accent-green);">
+            <p style="font-style: italic; margin-bottom: 12px; color: var(--text-primary);">"Our academy dashboard handles our students layout track without freezing. Best choice for coaching hubs!"</p>
+            <strong>- Deepika K., Educational Director</strong>
+        </div>
+    </div>
+
+    <div id="faq"></div>
+    <h2 class="section-heading">Frequently Answered Queries</h2>
+    <p class="section-subheading">Quick reference parameters regarding build systems</p>
+    <div class="faq-wrapper">
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">How do I track my active code status? <i class="fa-solid fa-chevron-down"></i></div>
+            <div class="faq-answer">Simply enter your phone handle or your KT tracking token in the console box found right inside our top hero framework screen.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">Are these modules fully secure? <i class="fa-solid fa-chevron-down"></i></div>
+            <div class="faq-answer">Yes, all client-facing blueprints utilize standard secure HTTPS architecture configurations alongside integrated safe dynamic links handles.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">How do I request premium invoices data? <i class="fa-solid fa-chevron-down"></i></div>
+            <div class="faq-answer">Operators can log into the master dashboard registry console to instantly export and compile neat PDF files for users.</div>
+        </div>
+    </div>
+
+    <footer class="suite-footer">
+        <div class="footer-inner">
+            <div class="footer-col">
+                <div class="nav-logo" style="margin-bottom:12px;">KaushalTech<span>.</span></div>
+                <p>Architecting high-value systems optimized for scaling operations digital revenue footprint.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Matrices</h4>
+                <a href="#" onclick="alert('Mock Privacy Directive Initialized Under Safe Encryption Standards.')">Privacy Policy</a>
+                <a href="#" onclick="alert('Mock Framework Operating Directives Terms Initialized.')">Terms of Service</a>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter Feed</h4>
+                <p>Stay updated on new feature drops inside the engine suite.</p>
+                <div class="newsletter-input-group">
+                    <input type="email" id="newsInput" class="newsletter-field" placeholder="Enter security email...">
+                    <button class="tracker-btn" style="padding:4px 12px; border-radius:6px; font-size:0.8rem;" onclick="handleNewsletterBtn()">Join</button>
+                </div>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:40px; padding-top:20px; border-top:1px solid var(--border-color); color:var(--text-muted); font-size:0.8rem;">
+            &copy; 2026 Kaushal Tech Suite. All rights authorized under master encryption protocols.
+        </div>
+    </footer>
+
+    <div id="orderChatModal" class="fullscreen-overlay">
+        <div class="interface-card">
+            <div class="interface-header">
+                <h3>Kaushal Engine Order Terminal</h3>
+                <p style="font-size:0.8rem; opacity:0.7;">State your software requirements parameters below</p>
+                <button class="close-overlay-btn" onclick="closeModal('orderChatModal')">×</button>
+            </div>
+            <div class="chat-space" id="chatSpace"></div>
+            <div class="chat-input-row">
+                <input type="text" id="chatInputField" class="chat-field" placeholder="Type your answer here..." onkeypress="handleChatKey(event)">
+                <button class="chat-send-btn" onclick="processChatStep()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminPasswordModal" class="fullscreen-overlay">
+        <div class="interface-card" style="max-width: 400px;">
+            <div class="interface-header">
+                <h3>System Authorization</h3>
+                <button class="close-overlay-btn" onclick="closeModal('adminPasswordModal')">×</button>
+            </div>
+            <div class="form-padding">
+                <div class="form-group">
+                    <label class="form-label">Administrative Master Password</label>
+                    <input type="password" id="adminPasswordInput" class="form-input" placeholder="••••••••" onkeypress="handleAdminPasswordKey(event)">
+                </div>
+                <button class="submit-form-btn" onclick="verifyAdminPassword()">Authorize Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminDashboardModal" class="fullscreen-overlay">
+        <div class="interface-card" style="max-width: 750px; margin: 10px auto;">
+            <div class="interface-header" style="background: #0071e3;">
+                <h3>Manager Registry Command Terminal</h3>
+                <p style="font-size:0.8rem; opacity:0.9;">Operator Core Node Access</p>
+                <button class="close-overlay-btn" onclick="closeModal('adminDashboardModal')">×</button>
+            </div>
+            <div style="padding: 16px; font-size: 0.9rem; background: rgba(0,113,227,0.1); font-weight: 600; color: var(--accent-blue);">
+                <i class="fa-solid fa-wallet"></i> Primary Revenue Processing Handle: 9478908961
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">Total Logs</div>
+                    <div class="stat-value" id="statTotalOrders">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Active Builds</div>
+                    <div class="stat-value" id="statActiveBuilds" style="color: var(--accent-blue);">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Average Deal</div>
+                    <div class="stat-value" id="statAvgValue" style="color: var(--accent-orange);">₹0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Net Pipeline</div>
+                    <div class="stat-value" id="statRevenue" style="color: var(--accent-green);">₹0</div>
+                </div>
+            </div>
+
+            <div class="chart-box-container">
+                <canvas id="revenueAnalyticsChart" style="max-height: 180px; width: 100%;"></canvas>
+            </div>
+            
+            <input type="text" id="dashboardSearch" class="dashboard-search-bar" placeholder="🔍 Query client names, order references, or phone handles..." oninput="renderDashboardOrders()">
+
+            <div class="filter-pill-row">
+                <button class="filter-pill active" id="filter-all" onclick="changeDashboardStatusFilter('All')">All Projects</button>
+                <button class="filter-pill" id="filter-pending" onclick="changeDashboardStatusFilter('Pending')">🟡 Pending</button>
+                <button class="filter-pill" id="filter-progress" onclick="changeDashboardStatusFilter('In Progress')">🔵 In Progress</button>
+                <button class="filter-pill" id="filter-completed" onclick="changeDashboardStatusFilter('Completed')">🟢 Completed</button>
+            </div>
+
+            <div id="ordersContainer" style="max-height: 320px; overflow-y: auto;"></div>
+        </div>
+    </div>
+
+    <script>
+        let database = JSON.parse(localStorage.getItem('kaushal_tech_orders')) || [];
+        let currentChatStep = 0;
+        let selectedCalculatedBudget = "₹1,500";
+        let activeDashboardFilter = "All"; 
+        let tempOrderData = { orderId: '', personalDetails: '', phoneNumber: '', websiteDetails: '', theme: '', projectStatus: 'Pending', calculatedCost: 1500 };
+        let chartInstance = null; 
+
+        // Google Sheets Deployment API Hook Configuration
+        // Paste your web app script link inside the single quotes below to initiate real-time logging
+        const GOOGLE_APPS_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+
+        const chatSteps = [
+            { field: 'personalDetails', prompt: "Welcome to Kaushal Tech Suite! Let's build your enterprise application. To start, what is your **Full Name** and **Business/Company name**?" },
+            { field: 'phoneNumber', prompt: "Excellent. Please provide your **Direct Phone Number** so we can coordinate layout updates." },
+            { field: 'websiteDetails', prompt: "Understood. Tell us about the **core features and elements** your business portal needs." },
+            { field: 'theme', prompt: "Final parameters question: What **Design Theme / Aesthetic Style** do you prefer? (e.g., Apple Minimalist, Cyberpunk Matrix, Luxury Slate)?" }
+        ];
+
+        // Google Sheets Data Stream Sender Node
+        function syncOrderToGoogleSheets(orderPayload) {
+            if (!GOOGLE_APPS_SCRIPT_URL || GOOGLE_APPS_SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT')) {
+                console.log("Google Sheets sync skipped: Target link variable left unconfigured.");
+                return;
+            }
+            
+            // Re-mapping explicit flat keys to guarantee the script parser sees 'orderId' perfectly
+            const structuredPayload = {
+                orderId: String(orderPayload.orderId),
+                personalDetails: String(orderPayload.personalDetails),
+                phoneNumber: String(orderPayload.phoneNumber),
+                websiteDetails: String(orderPayload.websiteDetails),
+                theme: String(orderPayload.theme),
+                projectStatus: String(orderPayload.projectStatus),
+                calculatedCost: Number(orderPayload.calculatedCost) || 1500
+            };
+            
+            fetch(GOOGLE_APPS_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(structuredPayload)
+            })
+            .then(() => {
+                showPremiumToast("Cloud Ledger Sync Complete", "fa-solid fa-cloud", "var(--accent-green)");
+            })
+            .catch(err => {
+                console.error("Sheets Ledger Stream Error Matrix: ", err);
+            });
+        }
+
+        // Mobile Layout Link Toggler
+        function toggleMobileMenu() {
+            document.getElementById('navLinksMenu').classList.toggle('mobile-open');
+        }
+
+        // FAQ Drawer Toggle Node
+        function toggleFaq(element) {
+            const parent = element.parentElement;
+            parent.classList.toggle('open');
+        }
+
+        // Newsletter Feedback Toast
+        function handleNewsletterBtn() {
+            const el = document.getElementById('newsInput');
+            if(el.value.trim() === "") return;
+            showPremiumToast("Subscription Registered to Feed Pipeline!", "fa-solid fa-paper-plane", "var(--accent-green)");
+            el.value = "";
+        }
+
+        // High Fluid UI Custom Toast Notification System Engine
+        function showPremiumToast(message, iconClass = "fa-circle-check", tintColor = "var(--accent-blue)") {
+            const anchor = document.getElementById('toastAnchorStack');
+            const toast = document.createElement('div');
+            toast.className = 'premium-toast-card';
+            toast.innerHTML = `<i class="${iconClass}" style="color:${tintColor};"></i> <span>${message}</span>`;
+            
+            anchor.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = "none"; 
+                toast.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+                toast.style.opacity = "0";
+                toast.style.transform = "translateY(-20px)";
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
+        // System Dark Theme Logic
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            const isDark = document.body.classList.contains('dark');
+            localStorage.setItem('kaushal_theme_node', isDark ? 'dark' : 'light');
+            document.getElementById('themeIcon').className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            
+            showPremiumToast(`Theme initialized: ${isDark ? 'Dark Matrix Mode' : 'Apple Light Mode'}`, isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun');
+            
+            if (document.getElementById('adminDashboardModal').style.display === 'block') {
+                renderAnalyticsGraph(); 
+            }
+        }
+        if (localStorage.getItem('kaushal_theme_node') === 'dark') {
+            document.body.classList.add('dark');
+            document.getElementById('themeIcon').className = 'fa-solid fa-sun';
+        }
+
+        function openModal(id) { 
+            document.getElementById(id).style.display = 'block'; 
+            if(id === 'adminPasswordModal') setTimeout(() => document.getElementById('adminPasswordInput').focus(), 50);
+        }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function switchPortfolioTab(tabKey, element) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.portfolio-screenshot').forEach(c => c.classList.remove('active'));
+            
+            element.classList.add('active');
+            document.getElementById(`mock-${tabKey}`).classList.add('active');
+
+            const urlText = document.getElementById('browserUrlText');
+            if(tabKey === 'restaurant') urlText.innerText = 'https://premium-cafe.kaushaltech.com';
+            if(tabKey === 'coaching') urlText.innerText = 'https://scholar-academy.kaushaltech.com';
+            if(tabKey === 'shop') urlText.innerText = 'https://local-store.kaushaltech.com';
+        }
+
+        function calculatePriceTotal() {
+            let total = 1500;
+            if(document.getElementById('opt_multi').checked) total += 2500;
+            if(document.getElementById('opt_upi').checked) total += 1000;
+            
+            selectedCalculatedBudget = "₹" + total.toLocaleString('en-IN');
+            document.getElementById('priceTotalTag').innerText = selectedCalculatedBudget;
+            return total;
+        }
+
+        function launchOrderWithBudget() {
+            startOrderWorkflow(`[Budget Locked: ${selectedCalculatedBudget}] `);
+        }
+
+        function startOrderWorkflow(initialBudgetContext) {
+            currentChatStep = 0;
+            const currentCost = calculatePriceTotal();
+            const randomId = "KT-" + Math.floor(1000 + Math.random() * 9000);
+            tempOrderData = { orderId: randomId, personalDetails: '', phoneNumber: '', websiteDetails: initialBudgetContext || '', theme: '', projectStatus: 'Pending', calculatedCost: currentCost };
+            
+            document.getElementById('chatSpace').innerHTML = '';
+            document.getElementById('chatInputField').disabled = false;
+            openModal('orderChatModal');
+            addChatBubble(chatSteps[0].prompt, 'system');
+            setTimeout(() => document.getElementById('chatInputField').focus(), 50);
+        }
+
+        function addChatBubble(text, sender) {
+            const container = document.getElementById('chatSpace');
+            const bubble = document.createElement('div');
+            bubble.className = `chat-bubble bubble-${sender}`;
+            
+            let processedStringText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            bubble.innerHTML = processedStringText;
+            
+            container.appendChild(bubble);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function handleChatKey(e) { if (e.key === 'Enter') processChatStep(); }
+        function handleAdminPasswordKey(e) { if (e.key === 'Enter') verifyAdminPassword(); }
+        function handleTrackerKey(e) { if (e.key === 'Enter') lookupClientOrder(); }
+
+        function processChatStep() {
+            const inputField = document.getElementById('chatInputField');
+            const answer = inputField.value.trim();
+            if (!answer) return;
+
+            addChatBubble(answer, 'user');
+            inputField.value = '';
+
+            const currentField = chatSteps[currentChatStep].field;
+            tempOrderData[currentField] = tempOrderData[currentField] ? tempOrderData[currentField] + answer : answer;
+
+            currentChatStep++;
+
+            if (currentChatStep < chatSteps.length) {
+                setTimeout(() => { addChatBubble(chatSteps[currentChatStep].prompt, 'system'); }, 400);
+            } else {
+                setTimeout(() => {
+                    database.push(tempOrderData);
+                    localStorage.setItem('kaushal_tech_orders', JSON.stringify(database));
+                    
+                    // --- MOBILE-OPTIMIZED GOOGLE APPS SCRIPT SYNC ---
+                    const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxCQtpipQV_Nz6L8ouhNWeN14ubsIOzz_p2_KmpYJp4k0b2tvwZQp3Z0KArnViF1tJo5Q/exec';
+                    
+                    // Convert our JSON tracking details into plain text parameters so mobile browsers don't block it
+                    const mobileFriendlyFormData = new URLSearchParams();
+                    mobileFriendlyFormData.append('orderId', tempOrderData.orderId);
+                    mobileFriendlyFormData.append('personalDetails', tempOrderData.personalDetails || "N/A");
+                    mobileFriendlyFormData.append('phoneNumber', tempOrderData.phoneNumber || "N/A");
+                    mobileFriendlyFormData.append('websiteDetails', tempOrderData.websiteDetails || "N/A");
+                    mobileFriendlyFormData.append('theme', tempOrderData.theme || "N/A");
+                    mobileFriendlyFormData.append('projectStatus', tempOrderData.projectStatus || "Pending");
+                    mobileFriendlyFormData.append('calculatedCost', tempOrderData.calculatedCost || 1500);
+
+                    fetch(GOOGLE_APPS_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors', 
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: mobileFriendlyFormData.toString()
+                    })
+                    .then(() => {
+                        showPremiumToast("Data synced to Google Sheets perfectly!", "fa-solid fa-cloud", "var(--accent-green)");
+                    })
+                    .catch(err => {
+                        console.error("Mobile Sync Error:", err);
+                    });
+                    // ------------------------------------------------
+
+                    addChatBubble(`<strong>System Logging Complete!</strong> Requirements locked configuration profile mappings.<br><br>🚨 <strong>Your Unique Tracker Token: <span style='color:var(--accent-orange); font-size:1.1rem;'>${tempOrderData.orderId}</span></strong><br>Reference this tracking sequence from our terminal registry anytime to check live statuses updates.`, 'system');
+                    inputField.disabled = true;
+                    showPremiumToast(`New Order Profile Registered: ${tempOrderData.orderId}`, "fa-solid fa-cloud-arrow-up", "var(--accent-green)");
+                }, 400);
+            }
+        }
+
+        function lookupClientOrder() {
+            const searchInput = document.getElementById('clientTrackerInput').value.trim().toLowerCase();
+            const resultPanel = document.getElementById('trackerResultPanel');
+            
+            if(!searchInput) { alert("Input tracking log target key values."); return; }
+
+            const matchingOrder = database.find(order => 
+                (order.orderId && order.orderId.toLowerCase() === searchInput) || 
+                (order.phoneNumber && order.phoneNumber.toLowerCase() === searchInput)
+            );
+
+            resultPanel.style.display = "block";
+
+            if(!matchingOrder) {
+                resultPanel.innerHTML = `<p style="color:var(--accent-red); font-weight:600; font-size:0.9rem;"><i class="fa-solid fa-circle-exclamation"></i> No pipeline ledger reference sequence trace elements matches entry: "${searchInput}".</p>`;
+                showPremiumToast("Trace Lookup Request Failed", "fa-solid fa-circle-exclamation", "var(--accent-red)");
+                return;
+            }
+
+            let badgeBg = 'rgba(255, 149, 0, 0.1)', badgeColor = 'var(--accent-orange)', statusIcon = '🟡';
+            if (matchingOrder.projectStatus === 'In Progress') {
+                badgeBg = 'rgba(0, 113, 227, 0.1)'; badgeColor = 'var(--accent-blue)'; statusIcon = '🔵';
+            } else if (matchingOrder.projectStatus === 'Completed') {
+                badgeBg = 'rgba(52, 199, 89, 0.1)'; badgeColor = 'var(--accent-green)'; statusIcon = '🟢';
+            }
+
+            showPremiumToast("Order Record Found and Parsed", "fa-solid fa-circle-check", "var(--accent-green)");
+
+            const waTextMessage = encodeURIComponent(`Hi Kaushal Tech Team! Checking update parameters on Project Frame Token: ${matchingOrder.orderId}. Client ID Name: ${matchingOrder.personalDetails}. Let's discuss details!`);
+
+            resultPanel.innerHTML = `
+                <div class="client-status-badge" style="background:${badgeBg}; color:${badgeColor};">Current Phase: ${statusIcon} ${matchingOrder.projectStatus}</div>
+                <h4 style="font-size:1.05rem; margin-bottom:4px;">${matchingOrder.personalDetails}</h4>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;"><strong>Registration Code Identifier:</strong> ${matchingOrder.orderId}</p>
+                <p style="font-size:0.9rem; line-height:1.4; color:var(--text-primary); background:var(--bg-global); padding:10px; border-radius:6px; margin-bottom:14px;">
+                    <strong>Design Elements Requirements Spec:</strong> ${matchingOrder.websiteDetails} <br>
+                    <span style="font-size:0.8rem; color:var(--text-muted);"><strong>Layout Design Accent Mapping:</strong> ${matchingOrder.theme}</span>
+                </p>
+                <a href="https://wa.me/919478908961?text=${waTextMessage}" target="_blank" class="cta-whatsapp-btn" style="padding:10px 20px; font-size:0.9rem; box-shadow:none; width:100%; justify-content:center;">
+                    <i class="fa-brands fa-whatsapp"></i> Initiate Status Coordination Call
+                </a>
+            `;
+        }
+
+        function verifyAdminPassword() {
+            const pass = document.getElementById('adminPasswordInput').value;
+            if (pass === 'Krishav@123') {
+                closeModal('adminPasswordModal');
+                document.getElementById('adminPasswordInput').value = '';
+                showPremiumToast("Authorization Granted. Welcome Back Operator.", "fa-solid fa-shield-halved", "var(--accent-green)");
+                renderDashboardOrders();
+                openModal('adminDashboardModal');
+            } else {
+                showPremiumToast("Access Denied: Invalid Credentials Fault", "fa-solid fa-triangle-exclamation", "var(--accent-red)");
+                alert('Authorization Credentials Fault Access Rejected.');
+            }
+        }
+
+        function changeDashboardStatusFilter(statusType) {
+            activeDashboardFilter = statusType;
+            document.querySelectorAll('.filter-pill').forEach(pill => pill.classList.remove('active'));
+            
+            if(statusType === 'All') document.getElementById('filter-all').classList.add('active');
+            if(statusType === 'Pending') document.getElementById('filter-pending').classList.add('active');
+            if(statusType === 'In Progress') document.getElementById('filter-progress').classList.add('active');
+            if(statusType === 'Completed') document.getElementById('filter-completed').classList.add('active');
+            
+            renderDashboardOrders();
+            showPremiumToast(`Filtered views to: ${statusType}`, "fa-solid fa-filter");
+        }
+
+        function renderAnalyticsGraph() {
+            const canvasElement = document.getElementById('revenueAnalyticsChart');
+            if (!canvasElement) return;
+            const ctx = canvasElement.getContext('2d');
+            
+            let counts = { Pending: 0, 'In Progress': 0, Completed: 0 };
+            database.forEach(order => {
+                if(counts[order.projectStatus] !== undefined) counts[order.projectStatus]++;
+            });
+
+            if(chartInstance) chartInstance.destroy(); 
+
+            const gridColorConfig = document.body.classList.contains('dark') ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)';
+            const scaleTextColor = document.body.classList.contains('dark') ? '#f5f5f7' : '#1d1d1f';
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Pending 🟡', 'In Progress 🔵', 'Completed 🟢'],
+                    datasets: [{
+                        label: 'Active Pipeline Volume Sets',
+                        data: [counts['Pending'], counts['In Progress'], counts['Completed']],
+                        backgroundColor: ['#ff9500', '#0071e3', '#34c759'],
+                        borderRadius: 8,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: scaleTextColor, font: { weight: '600', size: 11 } } },
+                        y: { grid: { color: gridColorConfig }, ticks: { color: scaleTextColor, stepSize: 1 } }
+                    }
+                }
+            });
+        }
+
+        function runMetricsPipeline() {
+            let total = database.length;
+            let active = database.filter(o => o.projectStatus === 'In Progress' || o.projectStatus === 'Pending').length;
+            let pipelineValue = database.reduce((accum, curr) => accum + (Number(curr.calculatedCost) || 1500), 0);
+            
+            let averageDeal = total > 0 ? Math.round(pipelineValue / total) : 0;
+
+            document.getElementById('statTotalOrders').innerText = total;
+            document.getElementById('statActiveBuilds').innerText = active;
+            document.getElementById('statAvgValue').innerText = "₹" + averageDeal.toLocaleString('en-IN');
+            document.getElementById('statRevenue').innerText = "₹" + pipelineValue.toLocaleString('en-IN');
+        }
+
+        function renderDashboardOrders() {
+            runMetricsPipeline();
+            renderAnalyticsGraph(); 
+            
+            const container = document.getElementById('ordersContainer');
+            const searchQuery = document.getElementById('dashboardSearch').value.toLowerCase().trim();
+            container.innerHTML = '';
+
+            if (database.length === 0) {
+                container.innerHTML = `<div style="padding:40px; text-align:center; color:var(--text-muted); font-size:0.9rem;">No operational entries inside framework tracking ledgers.</div>`;
+                return;
+            }
+
+            let visibleOrdersCount = 0;
+
+            database.forEach((order, index) => {
+                if (!order.projectStatus) order.projectStatus = 'Pending';
+                if (!order.orderId) order.orderId = "KT-" + Math.floor(1000 + Math.random() * 9000);
+                if (!order.calculatedCost) order.calculatedCost = 1500;
+
+                if (activeDashboardFilter !== 'All' && order.projectStatus !== activeDashboardFilter) return;
+
+                const matchesName = order.personalDetails ? order.personalDetails.toLowerCase().includes(searchQuery) : false;
+                const matchesPhone = order.phoneNumber ? order.phoneNumber.toLowerCase().includes(searchQuery) : false;
+                const matchesId = order.orderId ? order.orderId.toLowerCase().includes(searchQuery) : false;
+
+                if (searchQuery && !matchesName && !matchesPhone && !matchesId) return;
+                visibleOrdersCount++;
+
+                const item = document.createElement('div');
+                item.className = 'order-row';
+                
+                let statusColor = 'var(--accent-orange)';
+                if (order.projectStatus === 'In Progress') statusColor = 'var(--accent-blue)';
+                if (order.projectStatus === 'Completed') statusColor = 'var(--accent-green)';
+                item.style.borderLeft = `5px solid ${statusColor}`;
+
+                item.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div class="order-tag">Reference Node Trace Key: ${order.orderId} | Value Payload Assessment: ₹${(order.calculatedCost).toLocaleString('en-IN')}</div>
+                        <div class="status-select-container">
+                            <span>Phasing:</span>
+                            <select class="status-dropdown" onchange="updateProjectStatus(${index}, this.value)">
+                                <option value="Pending" ${order.projectStatus === 'Pending' ? 'selected' : ''}>🟡 Pending</option>
+                                <option value="In Progress" ${order.projectStatus === 'In Progress' ? 'selected' : ''}>🔵 In Progress</option>
+                                <option value="Completed" ${order.projectStatus === 'Completed' ? 'selected' : ''}>🟢 Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <h4 style="font-size:1.1rem; margin-bottom:4px; margin-top:6px;">${order.personalDetails || 'Unnamed Client'}</h4>
+                    <p style="font-size:0.9rem; margin-bottom:8px; font-weight:600; color:var(--accent-blue);"><i class="fa-solid fa-phone"></i> Contact Line Node Link: ${order.phoneNumber || 'N/A'}</p>
+                    <p style="font-size:0.9rem; margin-bottom:6px; color:var(--text-primary);"><strong>Architecture Specs Requirements Array:</strong> ${order.websiteDetails || 'N/A'}</p>
+                    <p style="font-size:0.85rem; color:var(--text-muted);"><strong>Preferred Aesthetic Design Core:</strong> ${order.theme || 'N/A'}</p>
+                    
+                    <div class="order-action-row">
+                        <button class="action-btn copy-btn" onclick="copyOrderToClipboard(${index}, this)">
+                            <i class="fa-solid fa-copy"></i> Copy Records Data
+                        </button>
+                        <button class="action-btn pdf-btn" onclick="generateOfficialPDFInvoice(${index})">
+                            <i class="fa-solid fa-file-pdf"></i> Generate Invoice PDF
+                        </button>
+                        <button class="action-btn delete-order-btn" onclick="deleteOrder(${index})">
+                            <i class="fa-solid fa-trash-can"></i> Wipe Log Line
+                        </button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+
+            if (visibleOrdersCount === 0) {
+                container.innerHTML = `<div style="padding:40px; text-align:center; color:var(--text-muted); font-size:0.9rem;">No entries inside ledger data matches tracking filter targets queries.</div>`;
+            }
+        }
+
+        function updateProjectStatus(index, newStatus) {
+            const oldStatus = database[index].projectStatus;
+            database[index].projectStatus = newStatus;
+            localStorage.setItem('kaushal_tech_orders', JSON.stringify(database));
+            renderDashboardOrders();
+            
+            // Sync status mutation updates back down to Google Sheets database grid
+            syncOrderToGoogleSheets(database[index]);
+
+            showPremiumToast(`Status modified: ${oldStatus} ➔ ${newStatus}`, "fa-solid fa-arrows-spin", "var(--accent-blue)");
+        }
+
+        function copyOrderToClipboard(index, buttonElement) {
+            const order = database[index];
+            const cleanTextString = `--- KAUSHAL TECH AGENCY HUB RECON LEDGER ---\n` +
+                                    `Project Frame Code Token Identifier: ${order.orderId}\n` +
+                                    `Client System Identity Target: ${order.personalDetails}\n` +
+                                    `Contact Comm Node Routing: ${order.phoneNumber}\n` +
+                                    `Architecture Layout Specs Specs: ${order.websiteDetails}\n` +
+                                    `Aesthetic Structural Interface Framework Style: ${order.theme}\n` +
+                                    `Value Assessment Net Investment Index: ₹${order.calculatedCost}\n` +
+                                    `Active Internal Processing Phase Level: ${order.projectStatus}\n` +
+                                    `--------------------------------------------`;
+
+            navigator.clipboard.writeText(cleanTextString).then(() => {
+                showPremiumToast("Records Copied to Clipboard Array", "fa-solid fa-copy", "var(--accent-blue)");
+                const nativeOriginalHTML = buttonElement.innerHTML;
+                buttonElement.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
+                buttonElement.style.background = 'rgba(52, 199, 89, 0.1)'; buttonElement.style.color = 'var(--accent-green)';
+                setTimeout(() => {
+                    buttonElement.innerHTML = nativeOriginalHTML;
+                    buttonElement.style.background = 'rgba(0, 113, 227, 0.1)'; buttonElement.style.color = 'var(--accent-blue)';
+                }, 1500);
+            }).catch(err => { console.error('Clipboard execution logic fault track: ', err); });
+        }
+
+        function generateOfficialPDFInvoice(index) {
+            const order = database[index];
+            const pdfTemplateNode = document.createElement('div');
+            
+            pdfTemplateNode.style.padding = '40px';
+            pdfTemplateNode.style.fontFamily = 'Arial, sans-serif';
+            pdfTemplateNode.style.color = '#1d1d1f';
+            pdfTemplateNode.style.backgroundColor = '#ffffff';
+
+            pdfTemplateNode.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h1 style="color:#0071e3; margin:0; font-size:26px; letter-spacing:-0.5px;">KAUSHAL TECH SUITE</h1>
+                    <span style="font-size:12px; color:#86868b; font-weight:700; text-transform:uppercase; background:#f5f5f7; padding:4px 8px; border-radius:4px;">Invoice Receipt Node</span>
+                </div>
+                <p style="color:#86868b; font-size:12px; margin:0 0 30px 0;">Premium Client Application Procurement Operations Log</p>
+                <hr style="border:none; border-top:1px solid #e8e8ed; margin-bottom:24px;">
+                
+                <table style="width:100%; border-collapse:collapse; margin-bottom:30px; font-size:14px;">
+                    <tr>
+                        <td style="padding:6px 0; color:#86868b; width:35%;">Project Tracking Token:</td>
+                        <td style="padding:6px 0; font-weight:700; color:#1d1d1f;">${order.orderId}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:6px 0; color:#86868b;">Client Identity/Business:</td>
+                        <td style="padding:6px 0; font-weight:600; color:#1d1d1f;">${order.personalDetails}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:6px 0; color:#86868b;">Linked Comm Contact Handle:</td>
+                        <td style="padding:6px 0; color:#0071e3; font-weight:600;">${order.phoneNumber}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:6px 0; color:#86868b;">Ledger Tracking Stage:</td>
+                        <td style="padding:6px 0; font-weight:700; color:#ff9500;">${order.projectStatus}</td>
+                    </tr>
+                </table>
+
+                <div style="background:#f5f5f7; padding:20px; border-radius:12px; margin-bottom:30px; border:1px solid #e8e8ed;">
+                    <h4 style="margin:0 0 8px 0; font-size:13px; text-transform:uppercase; color:#86868b; letter-spacing:0.5px;">Architecture Package Specifications Requirements Profile</h4>
+                    <p style="font-size:14px; line-height:1.5; color:#1d1d1f; margin:0 0 12px 0;">${order.websiteDetails}</p>
+                    <div style="font-size:12px; color:#86868b; border-top:1px dashed #d2d2d7; padding-top:10px; margin-top:10px;">
+                        <strong>Aesthetic Layout Interface Selection:</strong> ${order.theme}
+                    </div>
+                </div>
+
+                <div style="text-align:right; border-top:2px solid #1d1d1f; padding-top:16px;">
+                    <span style="font-size:12px; text-transform:uppercase; color:#86868b; font-weight:600; display:block; margin-bottom:4px;">Total Cleared Contract Value</span>
+                    <strong style="font-size:24px; color:#0071e3;">₹${(order.calculatedCost || 1500).toLocaleString('en-IN')}</strong>
+                </div>
+            `;
+
+            showPremiumToast("Compiling official invoice PDF file...", "fa-solid fa-spinner-third fa-spin", "var(--accent-orange)");
+
+            const options = {
+                margin: 0.5,
+                filename: `KaushalTech_Invoice_${order.orderId}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            document.body.appendChild(pdfTemplateNode);
+
+            html2pdf().set(options).from(pdfTemplateNode).save().then(() => {
+                showPremiumToast("PDF Invoice Download Complete", "fa-solid fa-file-circle-check", "var(--accent-green)");
+                document.body.removeChild(pdfTemplateNode);
+            }).catch(err => {
+                console.error("PDF generation failure tracking matrix:", err);
+                document.body.removeChild(pdfTemplateNode);
+            });
+        }
+
+        function deleteOrder(index) {
+            const targetId = database[index].orderId;
+            if (confirm("Permanently wipe this client tracking log line parameters item from registry tracking datasets?")) {
+                database.splice(index, 1);
+                localStorage.setItem('kaushal_tech_orders', JSON.stringify(database));
+                renderDashboardOrders();
+                showPremiumToast(`Wiped Record Profile Log: ${targetId}`, "fa-solid fa-trash-can", "var(--accent-red)");
+            }
+        }
+    </script>
+</body>
+</html>
