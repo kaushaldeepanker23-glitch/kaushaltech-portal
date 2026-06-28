@@ -1640,20 +1640,13 @@
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
 
+            // Temporarily mount to the body so layout engine can capture dimensions
+            document.body.appendChild(pdfTemplateNode);
+
             html2pdf().set(options).from(pdfTemplateNode).save().then(() => {
                 showPremiumToast("PDF Invoice Download Complete", "fa-solid fa-file-circle-check", "var(--accent-green)");
+                document.body.removeChild(pdfTemplateNode);
+            }).catch(err => {
+                console.error("PDF generation failure context matrix:", err);
+                document.body.removeChild(pdfTemplateNode);
             });
-        }
-
-        function deleteOrder(index) {
-            const targetId = database[index].orderId;
-            if (confirm("Permanently wipe this client tracking log line parameters item from registry tracking datasets?")) {
-                database.splice(index, 1);
-                localStorage.setItem('kaushal_tech_orders', JSON.stringify(database));
-                renderDashboardOrders();
-                showPremiumToast(`Wiped Record Profile Log: ${targetId}`, "fa-solid fa-trash-can", "var(--accent-red)");
-            }
-        }
-    </script>
-</body>
-</html>
